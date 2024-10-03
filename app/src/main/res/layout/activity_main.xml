@@ -31,20 +31,22 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:text="Fuck don't fight"
+        android:onClick="onClickBtn2"
         android:textSize="24sp" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="Test eines Toasts" />
+        android:onClick="onClickBtn1"
+        android:text="Auswahl eines Images" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:onClick="onClickBtn2"

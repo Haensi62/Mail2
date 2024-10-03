@@ -68,4 +68,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.sun.mail:android-mail:1.6.0")
     implementation("com.sun.mail:android-activation:1.6.0")
+    implementation ("androidx.activity:activity-ktx:1.2.0")
+    implementation ("androidx.fragment:fragment-ktx:1.3.0")
 }
