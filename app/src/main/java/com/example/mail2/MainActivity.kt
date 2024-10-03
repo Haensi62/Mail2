@@ -42,6 +42,7 @@ class MainActivity : ComponentActivity() {
         if (success) {
             // Bild wurde erfolgreich aufgenommen und gespeichert
             val thread = Thread {
+
                 try {
                     val sender = GMailSender(
                         "termikalf@gmail.com",
@@ -56,9 +57,13 @@ class MainActivity : ComponentActivity() {
                     val message = "Das war die Datei am $dateStamp Tag um $timeStamp Uhr"
                     val recipients = "Hans-Joachim.Fritz@kerberos.de"
                     sender.sendMail(subject, message, "termikalf@gmail.com", recipients)
+                    runOnUiThread{
+                        Toast.makeText(applicationContext, "Email sent: $sSubject", Toast.LENGTH_LONG).show();
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
+
             }
             thread.start()
         }
@@ -80,26 +85,6 @@ class MainActivity : ComponentActivity() {
             "${timeStamp}",     ".jpg", /* Suffix */
             storageDir /* Verzeichnis */
         )
-    }
-
-    fun getFileNameFromUri(uri: Uri): String? {
-        var fileName: String? = null
-        val cursor = contentResolver.query(uri, null, null, null, null)
-
-        cursor?.use {
-            if (it.moveToFirst()) {
-                val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (nameIndex >= 0) {
-                    fileName = it.getString(nameIndex)
-                }
-            }
-        }
-        return fileName
-    }
-
-    fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        pickImageLauncher.launch(intent)
     }
 
     fun onClickBtn1(view: View){
