@@ -13,7 +13,7 @@
         android:layout_marginRight="20dp"
         android:textStyle="bold"
         android:textColor="@android:color/holo_blue_dark"
-        android:text="Frtizens by Haensi \u00A9 2024 "
+        android:text="@string/fritzens_by_haensi_u00a9_2024"
         android:textSize="24sp" />
 
     <Button
@@ -27,7 +27,7 @@
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        android:text="Stuff"
+        android:text="@string/stuff"
         android:background="@drawable/rounded_button"/>
 
     <Button
@@ -41,7 +41,7 @@
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        android:text="Strom"
+        android:text="@string/strom"
         android:background="@drawable/rounded_button"/>
 
     <Button
@@ -55,7 +55,7 @@
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        android:text="Wasser"
+        android:text="@string/wasser"
         android:background="@drawable/rounded_button"/>
 
     <Button
@@ -69,6 +69,6 @@
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        android:text="Heizung"
+        android:text="@string/heizung"
         android:background="@drawable/rounded_button"/>
 </LinearLayout>

@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Mail2</string>
+    <string name="app_name">Fritzen</string>
+    <string name="fritzens_by_haensi_u00a9_2024">Fritzens by Haensi © 2024</string>
+    <string name="stuff">Stuff</string>
+    <string name="strom">Strom</string>
+    <string name="wasser">Wasser</string>
+    <string name="heizung">Heizung</string>
 </resources>
