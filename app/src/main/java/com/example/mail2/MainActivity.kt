@@ -25,7 +25,6 @@ import java.io.IOException
 import java.util.Date
 import java.util.Locale
 
-
 class MainActivity : ComponentActivity() {
 
     lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
@@ -62,7 +61,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
             thread.start()
-//            sendEmailWithAttachment(photoFile)
         }
     }
 
