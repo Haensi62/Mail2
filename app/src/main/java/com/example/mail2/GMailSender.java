@@ -96,8 +96,6 @@ import javax.mail.internet.MimeMultipart;
             _multipart.addBodyPart(messageBodyPart);
         }
 
-
-
         public class ByteArrayDataSource implements DataSource {
 
             private byte[] data;

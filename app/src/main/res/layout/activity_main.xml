@@ -7,31 +7,13 @@
     <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="35dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="69dp"
         android:layout_marginRight="20dp"
-        android:text="Fuck don't fight"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Fuck don't fight"
-        android:textSize="24sp" />
-
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Fuck don't fight"
-        android:onClick="onClickBtn2"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_blue_dark"
+        android:text="Frtizens by Haensi \u00A9 2024 "
         android:textSize="24sp" />
 
     <Button
@@ -40,8 +22,13 @@
         android:layout_height="100dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:onClick="onClickBtn1"
-        android:text="Auswahl eines Images" />
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:text="Stuff"
+        android:background="@drawable/rounded_button"/>
 
     <Button
         android:id="@+id/button3"
@@ -49,8 +36,39 @@
         android:layout_height="100dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:onClick="onClickBtn2"
-        android:text="Send Mail" />
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:text="Strom"
+        android:background="@drawable/rounded_button"/>
 
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:onClick="onClickBtn3"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:text="Wasser"
+        android:background="@drawable/rounded_button"/>
 
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:onClick="onClickBtn4"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:text="Heizung"
+        android:background="@drawable/rounded_button"/>
 </LinearLayout>
