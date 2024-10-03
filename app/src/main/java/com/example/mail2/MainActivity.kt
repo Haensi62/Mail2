@@ -64,7 +64,27 @@ class MainActivity : ComponentActivity() {
     val takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
             // Bild wurde erfolgreich aufgenommen und gespeichert
-            sendEmailWithAttachment(photoFile)
+            val thread = Thread {
+                try {
+                    val sender = GMailSender(
+                        "termikalf@gmail.com",
+                        "oqqb nrnu lfei frzs"
+                    )
+                    sender.addAttachment(photoFile)
+                    val subject = "Stuff"
+
+                    val dateStamp: String = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
+                    val timeStamp: String = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+
+                    val message = "Das war die Datei am $dateStamp Tag um $timeStamp Uhr"
+                    val recipients = "Hans-Joachim.Fritz@kerberos.de"
+                    sender.sendMail(subject, message, "termikalf@gmail.com", recipients)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            thread.start()
+//            sendEmailWithAttachment(photoFile)
         }
     }
 
@@ -98,8 +118,7 @@ class MainActivity : ComponentActivity() {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
-            "JPEG_${timeStamp}_", /* Prefix */
-            ".jpg", /* Suffix */
+            "${timeStamp}",     ".jpg", /* Suffix */
             storageDir /* Verzeichnis */
         )
     }

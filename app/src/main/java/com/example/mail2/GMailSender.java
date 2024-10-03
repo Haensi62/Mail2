@@ -1,6 +1,7 @@
 package com.example.mail2;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -85,6 +86,17 @@ import javax.mail.internet.MimeMultipart;
             messageBodyPart.setFileName("download image");
             _multipart.addBodyPart(messageBodyPart);
         }
+
+        public void addAttachment(File file ) throws Exception {
+            BodyPart messageBodyPart = new MimeBodyPart();
+            DataSource source = new FileDataSource(file.getAbsolutePath());
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            String newName = file.getName().substring(0,15) + ".jpg";
+            messageBodyPart.setFileName(newName);
+            _multipart.addBodyPart(messageBodyPart);
+        }
+
+
 
         public class ByteArrayDataSource implements DataSource {
 
