@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="69dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="45dp"
+        android:background="@color/colorPrimary"
         android:textStyle="bold"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
         android:text="@string/fritzens_by_haensi_u00a9_2024"
         android:textSize="24sp" />
 
@@ -22,7 +24,7 @@
         android:layout_height="100dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="80dp"
         android:onClick="onClickBtn1"
         android:textStyle="bold"
         android:textColor="@android:color/white"
