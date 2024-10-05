@@ -1,6 +1,7 @@
 package com.example.mail2
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
@@ -14,10 +15,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import com.example.mail2.ui.theme.Mail2Theme
 import java.io.File
@@ -34,6 +40,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_main)
     }
 
@@ -107,7 +114,6 @@ class MainActivity : ComponentActivity() {
         takePicture()
     }
 
-
 }
 
 @Composable
@@ -121,7 +127,13 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
+
+    var modifier = Modifier
+        .padding(4.dp)  // Adds padding around the text
+        .background(Color.Cyan)  // Sets the background color
+        .border(1.dp, Color.Black)  // Adds a black border around the text
+
     Mail2Theme {
-        Greeting("Android")
+        Greeting("Hans-Joachim Fritz", modifier)
     }
 }
