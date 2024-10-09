@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 
 import androidx.core.view.WindowCompat
@@ -95,23 +96,38 @@ class MainActivity : ComponentActivity() {
         val view = LocalView.current
 
         Column () {
-            Spacer(modifier = Modifier.height(28.dp))
-                Row (modifier = Modifier.padding(all = 8.dp)) {
+            Spacer(modifier = Modifier.height(2.dp))
+            Row (modifier = Modifier
+                .fillMaxWidth()  // Row füllt die gesamte Bildschirmbreite
+                .padding(16.dp),  // Padding um die Row herum
+                horizontalArrangement = Arrangement.SpaceEvenly){
+                Text(text = "Hier werden alle Buttons angezeigt, die ein Bild machen " +
+                        "und anschließend eine Mail an mich schicken, " +
+                        "die den Buttoninhalt als Betreff hat und das Bild " +
+                        "als Anhang.", fontSize = 21.sp)
+            }
+                Row (modifier = Modifier
+                    .fillMaxWidth()  // Row füllt die gesamte Bildschirmbreite
+                    .padding(16.dp),  // Padding um die Row herum
+                    horizontalArrangement = Arrangement.SpaceEvenly) {
                     Button(onClick = { onClickBtn1(view) }) {
-                        Text(text = "Stuff")
+                        Text(text = "Stuff", fontSize = 21.sp)
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
                     Button(onClick = { onClickBtn2(view) }) {
-                        Text(text = "Strom")
+                        Text(text = "Strom", fontSize = 21.sp)
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
                     Button(onClick = { onClickBtn3(view) }) {
-                        Text(text = "Wasser")
+                        Text(text = "Wasser", fontSize = 21.sp)
                     }
                 }
-                Row (modifier = Modifier.padding(all = 8.dp)){
+                Row (modifier = Modifier
+                    .fillMaxWidth()  // Row füllt die gesamte Bildschirmbreite
+                    .padding(16.dp),  // Padding um die Row herum
+                    horizontalArrangement = Arrangement.SpaceEvenly){
                     Button(onClick = { onClickBtn4(view) }) {
-                        Text(text = "Heizung")
+                        Text(text = "Heizung", fontSize = 21.sp)
                     }
                 }
             }
