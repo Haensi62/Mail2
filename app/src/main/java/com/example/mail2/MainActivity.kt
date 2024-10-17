@@ -29,18 +29,25 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,11 +74,11 @@ import java.util.Locale
 /**
  * enum values that represent the screens in the app
  */
-enum class CupcakeScreen(@StringRes val title: Int) {
+enum class Mail2Screen(@StringRes val title: Int) {
     Start(title = R.string.app_name),
-    Flavor(title = R.string.choose_flavor),
-    Pickup(title = R.string.choose_pickup_date),
-    Summary(title = R.string.order_summary)
+    Flavor(title = R.string.enter_email_account),
+    Pickup(title = R.string.enter_target),
+    Summary(title = R.string.show_log)
 }
 
 /**
@@ -80,7 +87,7 @@ enum class CupcakeScreen(@StringRes val title: Int) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CupcakeAppBar(
-    currentScreen: CupcakeScreen,
+    currentScreen: Mail2Screen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier
@@ -112,8 +119,8 @@ fun CupcakeApp(
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
-    val currentScreen = CupcakeScreen.valueOf(
-        backStackEntry?.destination?.route ?: CupcakeScreen.Start.name
+    val currentScreen = Mail2Screen.valueOf(
+        backStackEntry?.destination?.route ?: Mail2Screen.Start.name
     )
 
     Scaffold(
@@ -129,48 +136,40 @@ fun CupcakeApp(
 
         NavHost(
             navController = navController,
-            startDestination = CupcakeScreen.Start.name,
+            startDestination = Mail2Screen.Start.name,
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
         ) {
-            composable(route = CupcakeScreen.Start.name) {
+            composable(route = Mail2Screen.Start.name) {
                 Column {
                     Text("Erste Screen")
+                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
                     Text("Noch ein Text")
+                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
                     Button(onClick = {
-                        navController.navigate(CupcakeScreen.Flavor.name)
+                        navController.navigate(Mail2Screen.Flavor.name)
                         }) {
                         Text("Vor")
                     }
                 }
             }
-            composable(route = CupcakeScreen.Flavor.name) {
-                Column {
-                    Text("Zweite Screen")
-                    Text("Noch ein Text")
-                    Button(onClick = {
-                        navController.navigate(CupcakeScreen.Pickup.name)
-                    }) {
-                        Text("Vor")
-                    }
-                    Button(onClick = {
-                        navController.navigateUp()
-                    }) {
-                        Text("Zurück")
-                    }
-                }
+            composable(route = Mail2Screen.Flavor.name) {
+                EnterAccountInfo(navController)
             }
-            composable(route = CupcakeScreen.Pickup.name) {
+            composable(route = Mail2Screen.Pickup.name) {
                 Column {
                     Text("Dritte Screen")
+                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
                     Text("Noch ein Text")
+                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
                     Button(onClick = {
-                        navController.navigate(CupcakeScreen.Summary.name)
+                        navController.navigate(Mail2Screen.Summary.name)
                     }) {
                         Text("Vor")
                     }
+                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
                     Button(onClick = {
                         navController.navigateUp()
                     }) {
@@ -178,16 +177,65 @@ fun CupcakeApp(
                     }
                 }
             }
-            composable(route = CupcakeScreen.Summary.name) {
+            composable(route = Mail2Screen.Summary.name) {
                 Column {
                     Text("Vierte Screen")
+                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
                     Text("Noch ein Text")
+                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
                     Button(onClick = {
                         navController.navigateUp()
                     }) {
                         Text("Zurück")
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun EnterAccountInfo(navController: NavHostController){
+    var text by remember { mutableStateOf("") }
+    var text1 by remember { mutableStateOf("") }
+
+
+    Column {
+        Text("Zweite Screen")
+        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        Text("Noch ein Text")
+        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+
+        // OutlinedTextField zur Eingabe
+        OutlinedTextField(
+            value = text,
+            onValueChange = { newText ->
+                text = newText // Aktualisiere den Zustand mit dem neuen Text
+            },
+            label = { Text("E-mail Account Username") },
+            modifier = Modifier.fillMaxWidth() // Das Textfeld füllt die volle Breite aus
+        )
+        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        OutlinedTextField(
+            value = text1,
+            onValueChange = { newText ->
+                text1 = newText // Aktualisiere den Zustand mit dem neuen Text
+            },
+            label = { Text("E-mail Account Password") },
+            modifier = Modifier.fillMaxWidth() // Das Textfeld füllt die volle Breite aus
+        )
+        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        Row {
+            Button(onClick = {
+                navController.navigate(Mail2Screen.Pickup.name)
+            }) {
+                Text("Vor")
+            }
+            VerticalDivider(color = Color.Gray, thickness = 2.dp)
+            Button(onClick = {
+                navController.navigateUp()
+            }) {
+                Text("Zurück")
             }
         }
     }
