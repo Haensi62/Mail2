@@ -137,17 +137,58 @@ fun CupcakeApp(
                 .padding(innerPadding)
         ) {
             composable(route = CupcakeScreen.Start.name) {
-                Text("Erste Screen")
-                Text("Noch ein Text")
+                Column {
+                    Text("Erste Screen")
+                    Text("Noch ein Text")
+                    Button(onClick = {
+                        navController.navigate(CupcakeScreen.Flavor.name)
+                        }) {
+                        Text("Vor")
+                    }
+                }
             }
             composable(route = CupcakeScreen.Flavor.name) {
-                Text("Zweite Screen")
+                Column {
+                    Text("Zweite Screen")
+                    Text("Noch ein Text")
+                    Button(onClick = {
+                        navController.navigate(CupcakeScreen.Pickup.name)
+                    }) {
+                        Text("Vor")
+                    }
+                    Button(onClick = {
+                        navController.navigateUp()
+                    }) {
+                        Text("Zurück")
+                    }
+                }
             }
             composable(route = CupcakeScreen.Pickup.name) {
-                Text("Dritte Screen")
+                Column {
+                    Text("Dritte Screen")
+                    Text("Noch ein Text")
+                    Button(onClick = {
+                        navController.navigate(CupcakeScreen.Summary.name)
+                    }) {
+                        Text("Vor")
+                    }
+                    Button(onClick = {
+                        navController.navigateUp()
+                    }) {
+                        Text("Zurück")
+                    }
+                }
             }
             composable(route = CupcakeScreen.Summary.name) {
-                Text("Vierte Screen")
+                Column {
+                    Text("Vierte Screen")
+                    Text("Noch ein Text")
+                    Button(onClick = {
+                        navController.navigateUp()
+                    }) {
+                        Text("Zurück")
+                    }
+                }
             }
         }
     }
@@ -171,12 +212,6 @@ fun SelectQuantityButton(
         Text(stringResource(labelResourceId))
     }
 }
-
-
-
-
-
-
 
 class MainActivity : ComponentActivity() {
 
