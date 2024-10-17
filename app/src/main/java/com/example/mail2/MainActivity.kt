@@ -138,6 +138,7 @@ fun CupcakeApp(
         ) {
             composable(route = CupcakeScreen.Start.name) {
                 Text("Erste Screen")
+                Text("Noch ein Text")
             }
             composable(route = CupcakeScreen.Flavor.name) {
                 Text("Zweite Screen")
