@@ -1,8 +1,21 @@
 <resources>
-    <string name="app_name">Fritzen</string>
+    <string name="app_name">Fritzen Composable</string>
     <string name="fritzens_by_haensi_u00a9_2024">Fritzens by Haensi © 2024</string>
     <string name="stuff">Stuff</string>
     <string name="strom">Strom</string>
     <string name="wasser">Wasser</string>
     <string name="heizung">Heizung</string>
+    <string name="choose_flavor">Choose Flavor</string>
+    <string name="choose_pickup_date">Choose Pickup Date</string>
+    <string name="order_summary">Order Summary</string>
+    <string name="vanilla">Vanilla</string>
+    <string name="chocolate">Chocolate</string>
+    <string name="red_velvet">Red Velvet</string>
+    <string name="salted_caramel">Salted Caramel</string>
+    <string name="coffee">Coffee</string>
+    <string name="one_cupcake">One Cupcake</string>
+    <string name="six_cupcakes">Six Cupcakes</string>
+    <string name="twelve_cupcakes">Twelve Cupcakes</string>
+    <string name="subtotal_price">Subtotal %s</string>
+    <string name="back_button">Subtotal %s</string>
 </resources>

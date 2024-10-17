@@ -1,4 +1,4 @@
-package com.example.mail2;
+package com.example.mail2.mailer;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

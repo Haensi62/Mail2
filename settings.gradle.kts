@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Mail2"
+rootProject.name = "Mail2Components"
 include(":app")

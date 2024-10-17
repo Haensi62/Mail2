@@ -1,4 +1,4 @@
-package com.example.mail2;
+package com.example.mail2.mailer;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
