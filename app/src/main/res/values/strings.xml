@@ -5,9 +5,9 @@
     <string name="strom">Strom</string>
     <string name="wasser">Wasser</string>
     <string name="heizung">Heizung</string>
-    <string name="choose_flavor">Choose Flavor</string>
-    <string name="choose_pickup_date">Choose Pickup Date</string>
-    <string name="order_summary">Order Summary</string>
+    <string name="choose_flavor">The Button Page</string>
+    <string name="choose_pickup_date">Define Email Account</string>
+    <string name="order_summary">Define Subject</string>
     <string name="vanilla">Vanilla</string>
     <string name="chocolate">Chocolate</string>
     <string name="red_velvet">Red Velvet</string>

@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -56,7 +55,7 @@ import androidx.navigation.compose.rememberNavController
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 
-import com.example.mail2.MailerViewModel
+import com.example.mail2.data.MailerViewModel
 import com.example.mail2.mailer.GMailSender
 import java.io.File
 import java.io.IOException

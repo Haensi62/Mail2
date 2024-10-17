@@ -1,24 +1,20 @@
-package com.example.mail2
+package com.example.mail2.data
 
 import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.ViewModel
-import java.util.Locale
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import com.example.mail2.MailerViewModel
-import com.example.mail2.data.DataSource
-import com.example.mail2.data.OrderUiState
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.text.NumberFormat
 import java.util.Calendar
-
+import java.util.Locale
 
 /** Price for a single cupcake */
-private const val PRICE_PER_CUPCAKE = 2.00
+const val PRICE_PER_CUPCAKE = 2.00
 
 /** Additional cost for same day pickup of an order */
-private const val PRICE_FOR_SAME_DAY_PICKUP = 3.00
+const val PRICE_FOR_SAME_DAY_PICKUP = 3.00
 
 /**
  * [OrderViewModel] holds information about a cupcake order in terms of quantity, flavor, and
@@ -26,10 +22,7 @@ private const val PRICE_FOR_SAME_DAY_PICKUP = 3.00
  */
 
 
-
 class MailerViewModel : ViewModel() {
-
-
         /**
          * Cupcake state for this order
          */
