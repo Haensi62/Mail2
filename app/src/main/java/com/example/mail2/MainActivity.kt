@@ -155,23 +155,9 @@ fun CupcakeApp(
                     onButtonUp = { navController.navigateUp() })
             }
             composable(route = Mail2Screen.Pickup.name) {
-                Column {
-                    Text("Dritte Screen")
-                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
-                    Text("Noch ein Text")
-                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
-                    Button(onClick = {
-                        navController.navigate(Mail2Screen.Summary.name)
-                    }) {
-                        Text("Vor")
-                    }
-                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
-                    Button(onClick = {
-                        navController.navigateUp()
-                    }) {
-                        Text("Zurück")
-                    }
-                }
+                EnterButtonConfig(
+                    onNextButtonClick = {  },
+                    onButtonUp = { navController.navigateUp() })
             }
             composable(route = Mail2Screen.Summary.name) {
                 Column {
@@ -190,6 +176,17 @@ fun CupcakeApp(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun StartButtonScreenPreview(){
+    StartButtonScreen(
+        numberOption = 0,
+        onNextButtonClick = {},
+        modifier = Modifier
+    )
+}
+
+
 @Composable
 fun StartButtonScreen(
     numberOption: Int,                          // Number of Buttons to handle
@@ -197,17 +194,24 @@ fun StartButtonScreen(
     modifier: Modifier = Modifier
 ){
     Column {
-        Text("Erste Screen")
-        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        Text("Button Screen")
+        HorizontalDivider(color = Color.Gray, thickness = 16.dp)
         Text("Noch ein Text")
-        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        HorizontalDivider(color = Color.Gray, thickness = 16.dp)
         Button(onClick = onNextButtonClick) {
             Text("Vor")
         }
     }
 }
 
-
+@Preview(showBackground = true)
+@Composable
+fun EnterAccountInfoPreview(){
+    EnterAccountInfo(
+        onNextButtonClick = {},
+        onButtonUp = {}
+    )
+}
 
 @Composable
 fun EnterAccountInfo(
@@ -216,12 +220,11 @@ fun EnterAccountInfo(
     var text by remember { mutableStateOf("") }
     var text1 by remember { mutableStateOf("") }
 
-
     Column {
-        Text("Zweite Screen")
-        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        Text("Sending Account Info")
+        HorizontalDivider(color = Color.Gray, thickness = 16.dp)
         Text("Noch ein Text")
-        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        HorizontalDivider(color = Color.Gray, thickness = 16.dp)
 
         // OutlinedTextField zur Eingabe
         OutlinedTextField(
@@ -253,6 +256,62 @@ fun EnterAccountInfo(
         }
     }
 }
+
+
+@Preview(showBackground = true)
+@Composable
+fun EnterButtonConfigPreview(){
+    EnterButtonConfig(
+        onNextButtonClick = {},
+        onButtonUp = {}
+    )
+}
+
+@Composable
+fun EnterButtonConfig(
+    onNextButtonClick: () -> Unit,
+    onButtonUp: () -> Unit ){
+
+    Column {
+
+        var text by remember { mutableStateOf("") }
+        var text1 by remember { mutableStateOf("") }
+
+        Text("Target Configuration")
+        HorizontalDivider(color = Color.Gray, thickness = 16.dp)
+
+        // OutlinedTextField zur Eingabe
+        OutlinedTextField(
+            value = text,
+            onValueChange = { newText ->
+                text = newText // Aktualisiere den Zustand mit dem neuen Text
+            },
+            label = { Text("E-mail Account Username") },
+            modifier = Modifier.fillMaxWidth() // Das Textfeld füllt die volle Breite aus
+        )
+        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        OutlinedTextField(
+            value = text1,
+            onValueChange = { newText ->
+                text1 = newText // Aktualisiere den Zustand mit dem neuen Text
+            },
+            label = { Text("E-mail Account Password") },
+            modifier = Modifier.fillMaxWidth() // Das Textfeld füllt die volle Breite aus
+        )
+        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        Row {
+            Button(onClick = onNextButtonClick) {
+                Text("Vor")
+            }
+            VerticalDivider(color = Color.Gray, thickness = 2.dp)
+            Button(onClick = onButtonUp) {
+                Text("Zurück")
+            }
+        }
+    }
+}
+
+
 
 
 /**
