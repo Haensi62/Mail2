@@ -49,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -143,20 +144,15 @@ fun CupcakeApp(
                 .padding(innerPadding)
         ) {
             composable(route = Mail2Screen.Start.name) {
-                Column {
-                    Text("Erste Screen")
-                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
-                    Text("Noch ein Text")
-                    HorizontalDivider(color = Color.Gray, thickness = 2.dp)
-                    Button(onClick = {
-                        navController.navigate(Mail2Screen.Flavor.name)
-                        }) {
-                        Text("Vor")
-                    }
-                }
+                StartButtonScreen(5,
+                    onNextButtonClick = {navController.navigate(Mail2Screen.Flavor.name)},
+                    modifier = Modifier
+                        .fillMaxSize())
             }
             composable(route = Mail2Screen.Flavor.name) {
-                EnterAccountInfo(navController)
+                EnterAccountInfo(
+                    onNextButtonClick = {navController.navigate(Mail2Screen.Pickup.name)},
+                    onButtonUp = { navController.navigateUp() })
             }
             composable(route = Mail2Screen.Pickup.name) {
                 Column {
@@ -195,7 +191,28 @@ fun CupcakeApp(
 }
 
 @Composable
-fun EnterAccountInfo(navController: NavHostController){
+fun StartButtonScreen(
+    numberOption: Int,                          // Number of Buttons to handle
+    onNextButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
+){
+    Column {
+        Text("Erste Screen")
+        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        Text("Noch ein Text")
+        HorizontalDivider(color = Color.Gray, thickness = 2.dp)
+        Button(onClick = onNextButtonClick) {
+            Text("Vor")
+        }
+    }
+}
+
+
+
+@Composable
+fun EnterAccountInfo(
+    onNextButtonClick: () -> Unit,
+    onButtonUp: () -> Unit ){
     var text by remember { mutableStateOf("") }
     var text1 by remember { mutableStateOf("") }
 
@@ -226,15 +243,11 @@ fun EnterAccountInfo(navController: NavHostController){
         )
         HorizontalDivider(color = Color.Gray, thickness = 2.dp)
         Row {
-            Button(onClick = {
-                navController.navigate(Mail2Screen.Pickup.name)
-            }) {
+            Button(onClick = onNextButtonClick) {
                 Text("Vor")
             }
             VerticalDivider(color = Color.Gray, thickness = 2.dp)
-            Button(onClick = {
-                navController.navigateUp()
-            }) {
+            Button(onClick = onButtonUp) {
                 Text("Zurück")
             }
         }

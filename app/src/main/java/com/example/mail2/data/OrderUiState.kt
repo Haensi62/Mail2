@@ -29,5 +29,14 @@ data class OrderUiState(
     /** Total price for the order */
     val price: String = "",
     /** Available pickup dates for the order*/
-    val pickupOptions: List<String> = listOf()
+    val pickupOptions: List<String> = listOf(),
+    /** Email Account username for sending **/
+    val Username: String="",
+    /** Email Account username for sending **/
+    val Password: String="",
+    /** Email Account username for sending **/
+    val TargetAdress: String="",
+    /** Email Account username for sending **/
+    val Subject: String="",
+
 )
