@@ -31,12 +31,12 @@ data class OrderUiState(
     /** Available pickup dates for the order*/
     val pickupOptions: List<String> = listOf(),
     /** Email Account username for sending **/
-    val Username: String="",
+    val userName: String="",
     /** Email Account username for sending **/
-    val Password: String="",
+    val passWord: String="",
     /** Email Account username for sending **/
-    val TargetAdress: String="",
+    val targetAddress: String="",
     /** Email Account username for sending **/
-    val Subject: String="",
+    val subject: String="",
 
-)
+    )

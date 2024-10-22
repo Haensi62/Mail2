@@ -49,7 +49,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -113,10 +112,13 @@ fun CupcakeAppBar(
 }
 
 @Composable
-fun CupcakeApp(
+fun Mail2App(
     viewModel: MailerViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
+    var text by remember { mutableStateOf("Hans-Joachim.Fritz@kerberos.de") }
+    var text1 by remember { mutableStateOf("Waldemar.Hirsch") }
+
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
@@ -149,8 +151,13 @@ fun CupcakeApp(
                     modifier = Modifier
                         .fillMaxSize())
             }
-            composable(route = Mail2Screen.Flavor.name) {
+            composable(route = Mail2Screen.Flavor.name
+            ) {
                 EnterAccountInfo(
+                    "",
+                    "",
+                    onUsernameChange = { newText -> text = newText },
+                    onPasswordChange = { newText ->  text1 = newText },
                     onNextButtonClick = {navController.navigate(Mail2Screen.Pickup.name)},
                     onButtonUp = { navController.navigateUp() })
             }
@@ -186,7 +193,6 @@ fun StartButtonScreenPreview(){
     )
 }
 
-
 @Composable
 fun StartButtonScreen(
     numberOption: Int,                          // Number of Buttons to handle
@@ -207,7 +213,14 @@ fun StartButtonScreen(
 @Preview(showBackground = true)
 @Composable
 fun EnterAccountInfoPreview(){
+    var text by remember { mutableStateOf("Hans-Joachim.Fritz@kerberos.de") }
+    var text1 by remember { mutableStateOf("Waldemar.Hirsch") }
+
     EnterAccountInfo(
+        text,
+        text1,
+        onUsernameChange = { newText -> text = newText },
+        onPasswordChange = { newText ->  text1 = newText },
         onNextButtonClick = {},
         onButtonUp = {}
     )
@@ -215,10 +228,12 @@ fun EnterAccountInfoPreview(){
 
 @Composable
 fun EnterAccountInfo(
+    text: String,
+    text1: String,
+    onUsernameChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
     onNextButtonClick: () -> Unit,
     onButtonUp: () -> Unit ){
-    var text by remember { mutableStateOf("") }
-    var text1 by remember { mutableStateOf("") }
 
     Column {
         Text("Sending Account Info")
@@ -229,18 +244,14 @@ fun EnterAccountInfo(
         // OutlinedTextField zur Eingabe
         OutlinedTextField(
             value = text,
-            onValueChange = { newText ->
-                text = newText // Aktualisiere den Zustand mit dem neuen Text
-            },
+            onValueChange = onUsernameChange,  // Textänderung abfangen und weitergeben
             label = { Text("E-mail Account Username") },
             modifier = Modifier.fillMaxWidth() // Das Textfeld füllt die volle Breite aus
         )
         HorizontalDivider(color = Color.Gray, thickness = 2.dp)
         OutlinedTextField(
             value = text1,
-            onValueChange = { newText ->
-                text1 = newText // Aktualisiere den Zustand mit dem neuen Text
-            },
+            onValueChange = onPasswordChange,
             label = { Text("E-mail Account Password") },
             modifier = Modifier.fillMaxWidth() // Das Textfeld füllt die volle Breite aus
         )
@@ -251,7 +262,7 @@ fun EnterAccountInfo(
             }
             VerticalDivider(color = Color.Gray, thickness = 2.dp)
             Button(onClick = onButtonUp) {
-                Text("Zurück")
+                Text("kkk")
             }
         }
     }
@@ -351,7 +362,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
            MyApp {
-                CupcakeApp()
+               Mail2App()
             }
         }
     }

@@ -29,6 +29,28 @@ class MailerViewModel : ViewModel() {
         private val _uiState = MutableStateFlow(OrderUiState(pickupOptions = pickupOptions()))
         val uiState: StateFlow<OrderUiState> = _uiState.asStateFlow()
 
+
+        /**
+         * Set the quantity [numberCupcakes] of cupcakes for this order's state and update the price
+         */
+        fun setUserName(UserName: String) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    userName = UserName
+                )
+            }
+         }
+
+        fun setPassWord(PassWord: String) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    passWord = PassWord
+                )
+            }
+        }
+
+
+
         /**
          * Set the quantity [numberCupcakes] of cupcakes for this order's state and update the price
          */
