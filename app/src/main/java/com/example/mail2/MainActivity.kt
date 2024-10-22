@@ -43,6 +43,7 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -153,13 +154,10 @@ fun Mail2App(
             }
             composable(route = Mail2Screen.Flavor.name
             ) {
-                EnterAccountInfo(
-                    "",
-                    "",
-                    onUsernameChange = { newText -> text = newText },
-                    onPasswordChange = { newText ->  text1 = newText },
-                    onNextButtonClick = {navController.navigate(Mail2Screen.Pickup.name)},
-                    onButtonUp = { navController.navigateUp() })
+                EnterAccountInfoScreen(viewModel,
+                    onNextClick = {navController.navigate(Mail2Screen.Pickup.name)},
+                    onPrevClick = { navController.navigateUp() }
+                )
             }
             composable(route = Mail2Screen.Pickup.name) {
                 EnterButtonConfig(
@@ -223,6 +221,23 @@ fun EnterAccountInfoPreview(){
         onPasswordChange = { newText ->  text1 = newText },
         onNextButtonClick = {},
         onButtonUp = {}
+    )
+}
+
+@Composable
+fun EnterAccountInfoScreen(mail2ViewModel: MailerViewModel,
+                           onNextClick: () -> Unit,
+                           onPrevClick: () -> Unit){
+
+    val name: String by mail2ViewModel.name.observeAsState("")
+    val passWd: String by mail2ViewModel.passWd.observeAsState("")
+
+    EnterAccountInfo(name,
+                    passWd,
+                    onUsernameChange = {mail2ViewModel.onNameChange(it)},
+                    onPasswordChange = { mail2ViewModel.onPassWdChange(it) },
+                    onNextButtonClick = onNextClick,
+                    onButtonUp = onPrevClick
     )
 }
 

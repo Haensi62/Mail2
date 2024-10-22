@@ -1,6 +1,8 @@
 package com.example.mail2.data
 
 import android.icu.text.SimpleDateFormat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,6 +32,26 @@ class MailerViewModel : ViewModel() {
         val uiState: StateFlow<OrderUiState> = _uiState.asStateFlow()
 
 
+    // Username
+        private val _name : MutableLiveData<String> = MutableLiveData("")
+        val name: LiveData<String> = _name
+
+        fun onNameChange(newName: String){
+            _name.value = newName
+        }
+
+    // Password
+        private val _passWd : MutableLiveData<String> = MutableLiveData("")
+        val passWd: LiveData<String> = _passWd
+
+        fun onPassWdChange(newName: String){
+            _passWd.value = newName
+        }
+
+
+
+
+
         /**
          * Set the quantity [numberCupcakes] of cupcakes for this order's state and update the price
          */
@@ -48,8 +70,6 @@ class MailerViewModel : ViewModel() {
                 )
             }
         }
-
-
 
         /**
          * Set the quantity [numberCupcakes] of cupcakes for this order's state and update the price
