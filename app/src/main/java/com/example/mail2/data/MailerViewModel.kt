@@ -48,8 +48,21 @@ class MailerViewModel : ViewModel() {
             _passWd.value = newName
         }
 
+        // Username
+        private val _name1 : MutableLiveData<String> = MutableLiveData("")
+        val name1: LiveData<String> = _name1
 
+        fun onName1Change(newName: String){
+            _name1.value = newName
+        }
 
+        // Password
+        private val _passWd1 : MutableLiveData<String> = MutableLiveData("")
+        val passWd1: LiveData<String> = _passWd1
+
+        fun onPassWd1Change(newName: String){
+            _passWd1.value = newName
+        }
 
 
         /**

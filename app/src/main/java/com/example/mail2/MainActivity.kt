@@ -2,10 +2,12 @@ package com.example.mail2
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -54,6 +56,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -62,6 +66,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mail2.CameraX.CameraPreviewScreen
 
 import com.example.mail2.data.MailerViewModel
 import com.example.mail2.mailer.GMailSender
@@ -69,6 +74,8 @@ import java.io.File
 import java.io.IOException
 import java.util.Date
 import java.util.Locale
+import android.Manifest
+
 
 
 
@@ -76,9 +83,9 @@ import java.util.Locale
  * enum values that represent the screens in the app
  */
 enum class Mail2Screen(@StringRes val title: Int) {
-    Start(title = R.string.app_name),
-    Flavor(title = R.string.enter_email_account),
-    Pickup(title = R.string.enter_target),
+    Buttons(title = R.string.app_name),
+    Account(title = R.string.enter_email_account),
+    Targets(title = R.string.enter_target),
     Summary(title = R.string.show_log)
 }
 
@@ -117,14 +124,11 @@ fun Mail2App(
     viewModel: MailerViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
-    var text by remember { mutableStateOf("Hans-Joachim.Fritz@kerberos.de") }
-    var text1 by remember { mutableStateOf("Waldemar.Hirsch") }
-
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
     val currentScreen = Mail2Screen.valueOf(
-        backStackEntry?.destination?.route ?: Mail2Screen.Start.name
+        backStackEntry?.destination?.route ?: Mail2Screen.Buttons.name
     )
 
     Scaffold(
@@ -140,29 +144,29 @@ fun Mail2App(
 
         NavHost(
             navController = navController,
-            startDestination = Mail2Screen.Start.name,
+            startDestination = Mail2Screen.Buttons.name,
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
         ) {
-            composable(route = Mail2Screen.Start.name) {
-                StartButtonScreen(5,
-                    onNextButtonClick = {navController.navigate(Mail2Screen.Flavor.name)},
-                    modifier = Modifier
-                        .fillMaxSize())
+            composable(route = Mail2Screen.Buttons.name) {
+                StartButtonScreen(
+                    onNextButtonClick = {navController.navigate(Mail2Screen.Account.name)}
+                )
             }
-            composable(route = Mail2Screen.Flavor.name
+            composable(route = Mail2Screen.Account.name
             ) {
                 EnterAccountInfoScreen(viewModel,
-                    onNextClick = {navController.navigate(Mail2Screen.Pickup.name)},
+                    onNextClick = { navController.navigate(Mail2Screen.Targets.name) },
                     onPrevClick = { navController.navigateUp() }
                 )
             }
-            composable(route = Mail2Screen.Pickup.name) {
-                EnterButtonConfig(
-                    onNextButtonClick = {  },
-                    onButtonUp = { navController.navigateUp() })
+            composable(route = Mail2Screen.Targets.name) {
+                EnterButtonConfigScreen ( viewModel,
+                    onNextClick = {navController.navigate(Mail2Screen.Summary.name)},
+                    onPrevClick = { navController.navigateUp() }
+                )
             }
             composable(route = Mail2Screen.Summary.name) {
                 Column {
@@ -185,28 +189,55 @@ fun Mail2App(
 @Composable
 fun StartButtonScreenPreview(){
     StartButtonScreen(
-        numberOption = 0,
         onNextButtonClick = {},
-        modifier = Modifier
     )
 }
 
 @Composable
 fun StartButtonScreen(
-    numberOption: Int,                          // Number of Buttons to handle
+    onNextButtonClick: () -> Unit
+){
+    StartButtonInfo (
+        onNextButtonClick = onNextButtonClick,
+        onClickButton1 = { }
+    )
+}
+
+lateinit var sSubject: String
+
+
+@Composable
+fun StartButtonInfo(
     onNextButtonClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onClickButton1: () -> Unit
+
 ){
     Column {
         Text("Button Screen")
+        Button(onClick = onClickButton1 ) {
+            Text("Stuff")
+        }
         HorizontalDivider(color = Color.Gray, thickness = 16.dp)
-        Text("Noch ein Text")
+        Button(onClick = { }) {
+            Text("Strom")
+        }
         HorizontalDivider(color = Color.Gray, thickness = 16.dp)
-        Button(onClick = onNextButtonClick) {
+        Button(onClick = { }) {
+            Text("Wasser")
+        }
+        HorizontalDivider(color = Color.Gray, thickness = 16.dp)
+        Button(onClick = {   }) {
+            Text("Heizung")
+        }
+        HorizontalDivider(color = Color.Gray, thickness = 16.dp)
+        Button(onClick = {   }) {
             Text("Vor")
         }
     }
 }
+
+
+
 
 @Preview(showBackground = true)
 @Composable
@@ -218,7 +249,7 @@ fun EnterAccountInfoPreview(){
         text,
         text1,
         onUsernameChange = { newText -> text = newText },
-        onPasswordChange = { newText ->  text1 = newText },
+        onPasswordChange = { newText -> text1 = newText },
         onNextButtonClick = {},
         onButtonUp = {}
     )
@@ -287,40 +318,65 @@ fun EnterAccountInfo(
 @Preview(showBackground = true)
 @Composable
 fun EnterButtonConfigPreview(){
+    var text by remember { mutableStateOf("Hans-Joachim.Fritz@kerberos.de") }
+    var text1 by remember { mutableStateOf("Waldemar.Hirsch") }
+
     EnterButtonConfig(
+        text,
+        text1,
+        onUsernameChange = { newText -> text = newText },
+        onPasswordChange = { newText ->  text1 = newText },
         onNextButtonClick = {},
         onButtonUp = {}
     )
 }
 
 @Composable
+fun EnterButtonConfigScreen(mail2ViewModel: MailerViewModel,
+                           onNextClick: () -> Unit,
+                           onPrevClick: () -> Unit){
+
+    val name: String by mail2ViewModel.name1.observeAsState("")
+    val passWd: String by mail2ViewModel.passWd1.observeAsState("")
+
+    EnterButtonConfig(
+        name,
+        passWd,
+        onUsernameChange = { mail2ViewModel.onName1Change(it)},
+        onPasswordChange = { mail2ViewModel.onPassWd1Change(it) },
+        onNextButtonClick = onNextClick,
+        onButtonUp = onPrevClick
+    )
+}
+
+
+
+@Composable
 fun EnterButtonConfig(
+    text: String,
+    text1: String,
+    onUsernameChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
     onNextButtonClick: () -> Unit,
     onButtonUp: () -> Unit ){
 
     Column {
-
-        var text by remember { mutableStateOf("") }
-        var text1 by remember { mutableStateOf("") }
-
-        Text("Target Configuration")
+        Text("Sending Account Info")
+        HorizontalDivider(color = Color.Gray, thickness = 16.dp)
+        Text("Noch ein Text")
         HorizontalDivider(color = Color.Gray, thickness = 16.dp)
 
         // OutlinedTextField zur Eingabe
         OutlinedTextField(
             value = text,
-            onValueChange = { newText ->
-                text = newText // Aktualisiere den Zustand mit dem neuen Text
-            },
+            onValueChange = onUsernameChange,  // Textänderung abfangen und weitergeben
             label = { Text("E-mail Account Username") },
             modifier = Modifier.fillMaxWidth() // Das Textfeld füllt die volle Breite aus
         )
         HorizontalDivider(color = Color.Gray, thickness = 2.dp)
         OutlinedTextField(
             value = text1,
-            onValueChange = { newText ->
-                text1 = newText // Aktualisiere den Zustand mit dem neuen Text
-            },
+            onValueChange = onPasswordChange,
             label = { Text("E-mail Account Password") },
             modifier = Modifier.fillMaxWidth() // Das Textfeld füllt die volle Breite aus
         )
@@ -331,7 +387,7 @@ fun EnterButtonConfig(
             }
             VerticalDivider(color = Color.Gray, thickness = 2.dp)
             Button(onClick = onButtonUp) {
-                Text("Zurück")
+                Text("kkk")
             }
         }
     }
@@ -358,11 +414,35 @@ fun SelectQuantityButton(
     }
 }
 
+
 class MainActivity : ComponentActivity() {
 
     lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
 
     lateinit var sSubject: String
+
+
+    val cameraPermissionRequest =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                setCameraPreview()
+            } else {
+                // Camera permission denied
+            }
+
+        }
+
+    private fun setCameraPreview() {
+        setContent {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    CameraPreviewScreen()
+                }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -371,84 +451,113 @@ class MainActivity : ComponentActivity() {
 // alles vom Betriebssystem wird ausgeblendet
 // enableEdgeToEdge()
 
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        // setContentView(R.layout.activity_main)
-        // return
+        //requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+//        setContentView(R.layout.activity_main)
+//        return
 
-        setContent {
-           MyApp {
-               Mail2App()
+//        setContent {
+//           MyApp {
+//              // CameraPreview()
+//               Mail2App()
+//            }
+//        }
+//    }
+
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) -> {
+                setCameraPreview()
+            }
+
+            else -> {
+                cameraPermissionRequest.launch(Manifest.permission.CAMERA)
             }
         }
     }
 
 
-    // Haupt-App Composable
-    @Composable
-    fun MyApp(content: @Composable () -> Unit) {
-        MaterialTheme {
-            Surface(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.background) {
-                content() // Hier wird der übergebene Inhalt angezeigt
+
+        // Haupt-App Composable
+        @Composable
+        fun MyApp(content: @Composable () -> Unit) {
+            MaterialTheme {
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    content() // Hier wird der übergebene Inhalt angezeigt
+                }
             }
         }
-    }
 
-    @Preview(showBackground = true)
-    @Composable
-    fun PreviewGreeting(){
-        Greeting("Fuck You")
-    }
+        @Preview(showBackground = true)
+        @Composable
+        fun PreviewGreeting() {
+            Greeting("Fuck You")
+        }
 
-    @Composable
-    fun Greeting(name: String)
-    {
-        val view = LocalView.current
+        @Composable
+        fun Greeting(name: String) {
+            val view = LocalView.current
 
-        Column () {
-            Spacer(modifier = Modifier.height(2.dp))
-            Row (modifier = Modifier
-                .fillMaxWidth()  // Row füllt die gesamte Bildschirmbreite
-                .padding(16.dp),  // Padding um die Row herum
-                horizontalArrangement = Arrangement.SpaceEvenly){
-                Text(text = "Hier werden alle Buttons angezeigt, die ein Bild machen " +
-                        "und anschließend eine Mail an mich schicken, " +
-                        "die den Buttoninhalt als Betreff hat und das Bild " +
-                        "als Anhang.", fontSize = 21.sp)
-            }
-                Row (modifier = Modifier
-                    .fillMaxWidth()  // Row füllt die gesamte Bildschirmbreite
-                    .padding(16.dp),  // Padding um die Row herum
-                    horizontalArrangement = Arrangement.SpaceEvenly) {
-                    Button(onClick = { onClickBtn1(view) }) {
+            Column() {
+                Spacer(modifier = Modifier.height(2.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()  // Row füllt die gesamte Bildschirmbreite
+                        .padding(16.dp),  // Padding um die Row herum
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Text(
+                        text = "Hier werden alle Buttons angezeigt, die ein Bild machen " +
+                                "und anschließend eine Mail an mich schicken, " +
+                                "die den Buttoninhalt als Betreff hat und das Bild " +
+                                "als Anhang.", fontSize = 21.sp
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()  // Row füllt die gesamte Bildschirmbreite
+                        .padding(16.dp),  // Padding um die Row herum
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Button(onClick = { onClickBtn1() }) {
                         Text(text = "Stuff", fontSize = 21.sp)
                     }
                     Spacer(modifier = Modifier.width(4.dp))
-                    Button(onClick = { onClickBtn2(view) }) {
+                    Button(onClick = { onClickBtn2() }) {
                         Text(text = "Strom", fontSize = 21.sp)
                     }
                     Spacer(modifier = Modifier.width(4.dp))
-                    Button(onClick = { onClickBtn3(view) }) {
+                    Button(onClick = { onClickBtn3() }) {
                         Text(text = "Wasser", fontSize = 21.sp)
                     }
                 }
-                Row (modifier = Modifier
-                    .fillMaxWidth()  // Row füllt die gesamte Bildschirmbreite
-                    .padding(16.dp),  // Padding um die Row herum
-                    horizontalArrangement = Arrangement.SpaceEvenly){
-                    Button(onClick = { onClickBtn4(view) }) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()  // Row füllt die gesamte Bildschirmbreite
+                        .padding(16.dp),  // Padding um die Row herum
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Button(onClick = { onClickBtn4() }) {
                         Text(text = "Heizung", fontSize = 21.sp)
                     }
                 }
             }
-    }
-
-    // Preview-Funktion für die IDE-Vorschau
-    @Composable
-    fun DefaultPreview() {
-        MyApp {
-            Greeting("Preview")
         }
-    }
+
+        // Preview-Funktion für die IDE-Vorschau
+        @Composable
+        fun DefaultPreview() {
+            MyApp {
+                Greeting("Preview")
+            }
+        }
+
+
+
 
     lateinit var photoFile: File
     val takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
@@ -500,25 +609,29 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    fun onClickBtn1(view: View){
+
+    public fun onClickBtn1(){
         sSubject = "Stuff"
         takePicture()
     }
 
-    fun onClickBtn2(view: View){
+    fun onClickBtn2(){
         sSubject = "Strom"
-        takePicture()
+//    takePicture()
     }
 
-    fun onClickBtn3(view: View){
+    fun onClickBtn3(){
         sSubject = "Wasser"
-        takePicture()
+//    takePicture()
     }
 
-    fun onClickBtn4(view: View){
+    fun onClickBtn4(){
         sSubject = "Heizung"
-        takePicture()
+//    takePicture()
     }
+
+
+
+
 
 }
-
