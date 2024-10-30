@@ -86,7 +86,8 @@ enum class Mail2Screen(@StringRes val title: Int) {
     Buttons(title = R.string.app_name),
     Account(title = R.string.enter_email_account),
     Targets(title = R.string.enter_target),
-    Summary(title = R.string.show_log)
+    Summary(title = R.string.show_log),
+    Camera(title = R.string.camera)
 }
 
 /**
@@ -152,7 +153,12 @@ fun Mail2App(
         ) {
             composable(route = Mail2Screen.Buttons.name) {
                 StartButtonScreen(
-                    onNextButtonClick = {navController.navigate(Mail2Screen.Account.name)}
+                    onNextButtonClick = {navController.navigate(Mail2Screen.Account.name)},
+                    onClickButton1 = {navController.navigate(Mail2Screen.Camera.name)},
+                    onStuffClick = {navController.navigate(Mail2Screen.Camera.name)},
+                    onStromClick = {navController.navigate(Mail2Screen.Camera.name)},
+                    onWasserClick = {navController.navigate(Mail2Screen.Camera.name)},
+                    onHeizungClick = {navController.navigate(Mail2Screen.Camera.name)},
                 )
             }
             composable(route = Mail2Screen.Account.name
@@ -167,6 +173,12 @@ fun Mail2App(
                     onNextClick = {navController.navigate(Mail2Screen.Summary.name)},
                     onPrevClick = { navController.navigateUp() }
                 )
+            }
+            composable(route = Mail2Screen.Camera.name) {
+                CameraPreviewScreen(viewModel,
+                    onNextClick = {navController.navigate(Mail2Screen.Summary.name)},
+                    onPrevClick = { navController.navigateUp() }
+                    )
             }
             composable(route = Mail2Screen.Summary.name) {
                 Column {
@@ -190,16 +202,30 @@ fun Mail2App(
 fun StartButtonScreenPreview(){
     StartButtonScreen(
         onNextButtonClick = {},
+        onClickButton1 = {},
+        onStuffClick = {},
+        onStromClick = {},
+        onWasserClick = {},
+        onHeizungClick = {}
     )
 }
 
 @Composable
 fun StartButtonScreen(
-    onNextButtonClick: () -> Unit
+    onNextButtonClick: () -> Unit,
+    onClickButton1: () -> Unit,
+    onStuffClick: () -> Unit,
+    onStromClick: () -> Unit,
+    onWasserClick: () -> Unit,
+    onHeizungClick: () -> Unit
 ){
     StartButtonInfo (
         onNextButtonClick = onNextButtonClick,
-        onClickButton1 = { }
+        onClickButton1 = onClickButton1,
+        onStuffClick = onStuffClick,
+        onStromClick = onStromClick,
+        onWasserClick = onWasserClick,
+        onHeizungClick = onHeizungClick
     )
 }
 
@@ -209,24 +235,27 @@ lateinit var sSubject: String
 @Composable
 fun StartButtonInfo(
     onNextButtonClick: () -> Unit,
-    onClickButton1: () -> Unit
-
+    onClickButton1: () -> Unit,
+    onStuffClick: () -> Unit,
+    onStromClick: () -> Unit,
+    onWasserClick: () -> Unit,
+    onHeizungClick: () -> Unit
 ){
     Column {
         Text("Button Screen")
-        Button(onClick = onClickButton1 ) {
+        Button(onClick = onStuffClick ) {
             Text("Stuff")
         }
         HorizontalDivider(color = Color.Gray, thickness = 16.dp)
-        Button(onClick = { }) {
+        Button(onClick = onStromClick ) {
             Text("Strom")
         }
         HorizontalDivider(color = Color.Gray, thickness = 16.dp)
-        Button(onClick = { }) {
+        Button(onClick = onWasserClick) {
             Text("Wasser")
         }
         HorizontalDivider(color = Color.Gray, thickness = 16.dp)
-        Button(onClick = {   }) {
+        Button(onClick = onHeizungClick) {
             Text("Heizung")
         }
         HorizontalDivider(color = Color.Gray, thickness = 16.dp)
@@ -438,7 +467,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CameraPreviewScreen()
+//                    CameraPreviewScreen(MainActivity viewModel,
+//                        onNextClick = {},
+//                        onPrevClick = {})
                 }
         }
     }
@@ -451,18 +482,18 @@ class MainActivity : ComponentActivity() {
 // alles vom Betriebssystem wird ausgeblendet
 // enableEdgeToEdge()
 
-        //requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+       requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 //        setContentView(R.layout.activity_main)
 //        return
 
-//        setContent {
-//           MyApp {
-//              // CameraPreview()
-//               Mail2App()
-//            }
-//        }
+        setContent {
+           MyApp {
+              // CameraPreview()
+               Mail2App()
+            }
+        }
 //    }
-
+return
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(
                 this,
@@ -612,22 +643,22 @@ class MainActivity : ComponentActivity() {
 
     public fun onClickBtn1(){
         sSubject = "Stuff"
-        takePicture()
+//        takePicture()
     }
 
     fun onClickBtn2(){
         sSubject = "Strom"
-//    takePicture()
+////    takePicture()
     }
 
     fun onClickBtn3(){
         sSubject = "Wasser"
-//    takePicture()
+////    takePicture()
     }
 
     fun onClickBtn4(){
         sSubject = "Heizung"
-//    takePicture()
+////    takePicture()
     }
 
 
